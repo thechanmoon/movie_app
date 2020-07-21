@@ -14,7 +14,7 @@ return (
             <h5 className="movie__year">{year}</h5>
             {/* <ul>{genres.map((genre,index )=> <li>{genre}</li>)}</ul> */}
             <ul className="movie__genres">{genres.map((genre,index )=> <li key = {index}>{genre}</li>)}</ul>
-            <p className="movie__summary">{summary}</p>
+            <p className="movie__summary">{summary.slice(0,140)}...</p>
         </div>
     </div>
     )

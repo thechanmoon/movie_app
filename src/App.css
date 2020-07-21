@@ -40,6 +40,13 @@ body{
     width: 80%;
     padding-top: 70px;
   }
+  /* .movies {
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    padding: 50px;
+    width:80%;
+  } */
   
   /* @media screen and (max-width: 1090px) {
     .movies {
