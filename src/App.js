@@ -1,52 +1,95 @@
 import React from 'react';
-import PropTypes from 'prop-types';
-
-const fruits = 
-  [
-   {
-    id: 0, 
-    name:"Watermelon", 
-     image: "https://upload.wikimedia.org/wikipedia/commons/thumb/c/cc/Watermelon_seedless.jpg/220px-Watermelon_seedless.jpg",
-    likes: 5
-    },
-   {
-    id: 1,
-    name:"Grape", 
-    image: "https://upload.wikimedia.org/wikipedia/commons/thumb/b/bb/Table_grapes_on_white.jpg/220px-Table_grapes_on_white.jpg",
-    likes: 4
-  }
-  ]
-
-  fruits.propTypes = 
-  {
-    name: PropTypes.string.isRequired,
-    image: PropTypes.string.isRequired,
-    likes: PropTypes.number.isRequired
-  }
-// const fruits = ["water melon", "grape"]
-
-function Fruit({name,image, likes}){
-return (
-  <div>
-    <h3>{name} is my favorite fruit  !!</h3>
-    <h2>{likes}/5.0</h2>
-    <img src={image} alt={name}/>
-  </div>
-  )}
-
-function App() {
+import axios from 'axios';
+import Movie from './Movie';
+import './App.css';
+class App extends React.Component {
   // let index = 0;
-  return (
-  <div>
-  {
-    
-  fruits.map( fruit => {
-    // return <Fruit key = {index++} name = {fruit.name} image = {fruit.image}> </Fruit>
-    return <Fruit key = {fruit.id} name = {fruit.name} image = {fruit.image} likes = {fruit.likes}> </Fruit>
-  })
+  state = {
+    isLoading: true,
+    movies: []
   }
-  </div>
-  );
+
+  getMovieData = async () => 
+  {
+    // const movies = await axios.get("https://yts.mx/api/v2/list_movies.json");
+    // const movies = await axios.get("https://yts-proxy.now.sh/list_movies.json");
+    //const recv_data = await axios.get("https://yts-proxy.now.sh/list_movies.json");
+    //const movies = recv_data.data.data.movies;
+    // const {
+    //   data:{
+    //     data:
+    //       {movies}
+    //     }
+    //   } = await axios.get("https://yts.mx/api/v2/list_movies.json");
+
+    // const {data:{data:{movies}}} = await axios.get("https://yts.mx/api/v2/list_movies.json?sort_by=rating");
+    const {data:{data:{movies}}} = await axios.get(`https://yts.mx/api/v2/list_movies.json?sort_by=rating`);
+    // const {data:{data:{movies}}} = await axios.get("https://yts-proxy.now.sh/list_movies.json?sort_by=rating");
+    
+
+    // console.log("in getMovieData");
+    // console.log(movies)
+    // console.log("loging start")
+    // console.log(movies.data)
+    // console.log(movies.data.data)
+    // console.log(movies.data.data.movies)
+    //this.setState({movies: recv_data.data.data.moives})
+    this.setState({movies, isLoading: false})
+    // console.log(this.state.movies)
+  }
+
+  componentDidMount()
+  {
+    // let index = 0;
+    // for(index = 0; index < 10000; index++)
+    // {
+    //   console.log(index);
+    // }
+    // setTimeout(
+    //   ()=>{this.setState({isLoading: false});},3000
+    // )
+    this.getMovieData();
+
+  }
+
+  renderMovie = () =>
+  {
+    const {movies} = this.state
+    console.log("in the renderMovie()");
+    console.log(movies);
+    return( 
+      movies.map(movie=> 
+        // <Movie key = {movie.id} 
+        //         id = {movie.id} 
+        //         year = {movie.year} 
+        //         summary = {movie.summary} 
+        //         poster = {movie.medium_cover_image} 
+        //         title={movie.title}/>)
+        <Movie key = {movie.id}  id={movie.id} year={movie.year} title={movie.title} summary={movie.summary} poster={movie.medium_cover_image} genres= {movie.genres}/>)
+    )
+    // return <Movie title={this.state.movies[0].title}></Movie>
+  }
+
+  render()
+  {
+    // console.log("in render()")
+    // console.log(this.state.movies)
+    const {isLoading} = this.state;
+    return(
+      <section className = "container">
+      {isLoading ? 
+        <div className = "loader">
+          <span className = "loader__text">Loading...</span>
+        </div>
+      : 
+      <div className = "movies">
+      {this.renderMovie()} 
+      </div>  
+      }
+      
+      </section>
+    )
+  }
 }
 
 export default App;
