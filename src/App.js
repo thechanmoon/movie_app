@@ -1,6 +1,7 @@
 import React from 'react';
 import axios from 'axios';
 import Movie from './Movie';
+import './App.css';
 class App extends React.Component {
   // let index = 0;
   state = {
@@ -64,7 +65,7 @@ class App extends React.Component {
         //         summary = {movie.summary} 
         //         poster = {movie.medium_cover_image} 
         //         title={movie.title}/>)
-        <Movie key = {movie.id}  id={movie.id} year={movie.year} title={movie.title} summary={movie.summary} poster={movie.medium_cover_image}/>)
+        <Movie key = {movie.id}  id={movie.id} year={movie.year} title={movie.title} summary={movie.summary} poster={movie.medium_cover_image} genres= {movie.genres}/>)
     )
     // return <Movie title={this.state.movies[0].title}></Movie>
   }
@@ -75,13 +76,13 @@ class App extends React.Component {
     // console.log(this.state.movies)
     const {isLoading} = this.state;
     return(
-      <section class = "container">
+      <section className = "container">
       {isLoading ? 
-        <div class = "loader">
-          <span class = "loader__text">Loading...</span>
+        <div className = "loader">
+          <span className = "loader__text">Loading...</span>
         </div>
       : 
-      <div class = "movies">
+      <div className = "movies">
       {this.renderMovie()} 
       </div>  
       }
